@@ -694,7 +694,9 @@
                 styleSheets.forEach(function(sheet) {
                     if (!!sheet["cssRules"]) {
                         try {
-                            util.asArray(sheet.cssRules || []).forEach(cssRules.push.bind(cssRules));
+                            if (sheet["cssRules"].length && sheet["cssRules"][0] && sheet["cssRules"][0].cssText && sheet["cssRules"][0].cssText.includes("@font-face")) {
+                                cssRules.push(sheet["cssRules"][0]);
+                            }
                         } catch (e) {
                             console.log('Error while reading CSS rules from ' + sheet.href, e.toString());
                         }

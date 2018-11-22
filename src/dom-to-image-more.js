@@ -698,8 +698,15 @@
                     if (!!sheet["cssRules"]) {
                         try {
                             if (sheet["cssRules"].length && sheet["cssRules"][0] && sheet["cssRules"][0].cssText && sheet["cssRules"][0].cssText.includes("@font-face")) {
-                                cssRules.push(sheet["cssRules"][0]);
-                            }
+                               if (window["mathComponentFonts"]) {
+                                   for (var font in window["mathComponentFonts"]) {
+                                       if (sheet["cssRules"][0].cssText.indexof(window["mathComponentFonts"][font]) >= 0) {
+                                           cssRules.push(sheet["cssRules"][0]);
+                                           break;
+                                       }
+                                   }
+                               }
+                           }
                         } catch (e) {
                             console.log('Error while reading CSS rules from ' + sheet.href, e.toString());
                         }

@@ -484,7 +484,9 @@
 
             return new Promise(function(resolve) {
                 var request = new XMLHttpRequest();
-
+                if (window[url]) {
+                    return resolve(window[url]);
+                }
                 request.onreadystatechange = done;
                 request.ontimeout = timeout;
                 request.responseType = 'blob';
@@ -516,6 +518,7 @@
                     var encoder = new FileReader();
                     encoder.onloadend = function() {
                         var content = encoder.result.split(/,/)[1];
+                        window[url] = content;
                         resolve(content);
                     };
                     encoder.readAsDataURL(request.response);

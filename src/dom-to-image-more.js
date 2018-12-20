@@ -161,7 +161,7 @@
     function draw(domNode, options) {
         return toSvg(domNode, options)
             .then(util.makeImage)
-            .then(util.delay(100))
+//             .then(util.delay(100))
             .then(function(image) {
                 var scale = typeof(options.scale) !== 'number' ? 1 : options.scale;
                 var canvas = newCanvas(domNode, scale);
@@ -341,22 +341,13 @@
     }
 
     function makeSvgDataUri(node, width, height) {
-        return Promise.resolve(node)
-            .then(function(node) {
-                node.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
-                return new XMLSerializer().serializeToString(node);
-            })
-            .then(util.escapeXhtml)
-            .then(function(xhtml) {
-                return '<foreignObject x="0" y="0" width="100%" height="100%">' + xhtml + '</foreignObject>';
-            })
-            .then(function(foreignObject) {
-                return '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '">' +
-                    foreignObject + '</svg>';
-            })
-            .then(function(svg) {
-                return 'data:image/svg+xml;charset=utf-8,' + svg;
-            });
+        node.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+        var out = new XMLSerializer().serializeToString(node);
+        var xhtml = util.escapeXhtml(out);
+        var foreignObject = '<foreignObject x="0" y="0" width="100%" height="100%">' + xhtml + '</foreignObject>';
+        var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '">' +
+            foreignObject + '</svg>';
+        return 'data:image/svg+xml;charset=utf-8,' + svg;
     }
 
     function newUtil() {

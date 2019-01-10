@@ -1,4 +1,4 @@
-# DOM to Image
+# DOM to Image More
 
 [![Build Status](https://travis-ci.org/IDisposable/dom-to-image-more.svg?branch=master)](https://travis-ci.org/IDisposable/dom-to-image-more)
 
